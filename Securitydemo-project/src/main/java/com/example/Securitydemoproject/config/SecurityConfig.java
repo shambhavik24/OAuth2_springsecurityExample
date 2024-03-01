@@ -23,7 +23,7 @@ import static org.springframework.security.config.web.server.ServerHttpSecurity.
 public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails student =User.withUsername("leo")
+        UserDetails student =User.withUsername("user")
                 .password(passwordEncoder().encode("password"))
                 .authorities("read")
                 .build();
@@ -43,16 +43,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers("/css/**")
-                                .anonymous().requestMatchers(HttpMethod.GET,"/index*","/static/**","/*.js", "/*.json",
-                                        "/*.ico","/rest")
+                    //Your template path
+                                .anonymous().requestMatchers(/login)
                                 .permitAll().
                                 anyRequest().
                                 authenticated()
                 )
                 .formLogin(
-                        form -> form.loginPage("/index.html").permitAll()
-                                .loginProcessingUrl("/perform_login")
-                                .defaultSuccessUrl("/home.html")
+                        form -> form.loginPage("/login").permitAll()
+                                .loginProcessingUrl("/home")
+                                .defaultSuccessUrl("/home")
                 )
                 .oauth2Login(
 
